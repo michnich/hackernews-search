@@ -11,7 +11,10 @@ import { NewsService } from './../news.service';
 export class SearchComponent implements OnInit {
 
   search = "";
-  type= "all";
+  type = "all";
+  sort = "relevance"; 
+  time = "all";
+
   results:any = [];
 
   constructor(private service: NewsService) { }

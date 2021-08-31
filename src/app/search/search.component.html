@@ -18,6 +18,23 @@
                 <mat-option value="ask_hn">Ask HN</mat-option>
             </mat-select>
         </mat-form-field>
+        <mat-form-field appearance="outline">
+            <mat-label>Sort by: </mat-label>
+            <mat-select name="sort" [(ngModel)]="sort">
+                <mat-option value="relevance">Relevance</mat-option>
+                <mat-option value="date">Date</mat-option>
+            </mat-select>
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+            <mat-label>Include results from: </mat-label>
+            <mat-select name="time" [(ngModel)]="time">
+                <mat-option value="all">All time</mat-option>
+                <mat-option value="day">Past 24 hrs</mat-option>
+                <mat-option value="week">Past week</mat-option>
+                <mat-option value="month">Past month</mat-option>
+                <mat-option value="year">Past year</mat-option>
+            </mat-select>
+        </mat-form-field>
         <div>
             <button type="submit" mat-flat-button color="primary">Search</button>
         </div>
