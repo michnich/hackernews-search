@@ -45,6 +45,7 @@
     <div *ngFor="let result of results">
         <!-- results will one or other defined, api change? -->
         <a *ngIf="result.title" href="{{result.url}}" target="_blank">{{result.title}}</a>
-        <a *ngIf="!result.title" href="{{result.story_url}}" target="_blank">{{result.story_title}}</a>       
+        <a *ngIf="!result.title" href="{{result.story_url}}" target="_blank">{{result.story_title}}</a>
+        <p>posted: {{result.created_at | date : 'shortDate'}}</p>       
     </div>
 </div>

@@ -23,7 +23,7 @@ export class SearchComponent implements OnInit {
   }
 
   submit(form: NgForm) {
-    this.service.search(this.search, this.type).subscribe((data:any) => {
+    this.service.search(this.search, this.type, this.sort, this.time).subscribe((data:any) => {
       this.results = data.hits;
     })
   }
