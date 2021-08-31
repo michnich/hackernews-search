@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
+import { StateService } from './../state.service';
+
 @Component({
   selector: 'app-history',
   templateUrl: './history.component.html',
@@ -7,9 +9,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HistoryComponent implements OnInit {
 
-  constructor() { }
+  history!: Array<any>
+
+  constructor(private state: StateService) { }
 
   ngOnInit(): void {
+    this.state.history$.subscribe(history => {
+      this.history = history;
+    })
   }
 
 }
