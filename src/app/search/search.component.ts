@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 
+import { PageEvent } from '@angular/material/paginator';
+
 import { NewsService } from './../news.service';
 
 @Component({
@@ -15,6 +17,7 @@ export class SearchComponent implements OnInit {
   sort = "relevance"; 
   time = "all";
 
+  totalResults!:number;
   results:any = [];
 
   constructor(private service: NewsService) { }
@@ -24,6 +27,13 @@ export class SearchComponent implements OnInit {
 
   submit(form: NgForm) {
     this.service.search(this.search, this.type, this.sort, this.time).subscribe((data:any) => {
+      this.results = data.hits;
+      this.totalResults = data.nbHits;
+    })
+  }
+
+  nextPage(event: PageEvent) {
+    this.service.nextSearchPage(this.search, this.type, this.sort, this.time, event.pageIndex).subscribe((data:any) => {
       this.results = data.hits;
     })
   }

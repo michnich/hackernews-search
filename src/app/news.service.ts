@@ -35,6 +35,32 @@ export class NewsService {
     return this.http.get(searchUrl);
   }
 
+  nextSearchPage(term: string, type: string, sort: string, time: string, page: number) {
+    let searchUrl;
+
+    //sort results by date, or by relevance 
+    if (sort === "date") {
+      searchUrl = `${this.base}search_by_date?query=${term}`;  
+    }
+    else {
+      searchUrl = `${this.base}search?query=${term}`;  
+    }
+
+    //add query tags if needed
+    if (type !="all") {
+      searchUrl = `${searchUrl}&tags=${type};`
+    }
+
+    //if a time range was supplied
+    if (time != "all") {
+      searchUrl = searchUrl + this.timeRangeQuery(time);
+    }
+
+    searchUrl = `${searchUrl}&page=${page}`;
+    console.log(searchUrl);
+    return this.http.get(searchUrl);
+  }
+
   timeRangeQuery(range: string) {
     let today = moment();
     let startDate!: any;
