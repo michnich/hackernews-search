@@ -2,9 +2,9 @@
     <form (ngSubmit)="submit(form)" #form="ngForm">
         <!-- SEARCH PHRASE -->
         <mat-form-field class="example-form-field" appearance="outline">
-            <input matInput type="text" name="search" [(ngModel)]="search" placeholder="Search...">
+            <input matInput type="text" name="term" [(ngModel)]="term" placeholder="Search...">
             <!-- clear search button -->
-            <button *ngIf="search" matSuffix mat-icon-button aria-label="Clear" (click)="search=''">
+            <button *ngIf="term" matSuffix mat-icon-button aria-label="Clear" (click)="term=''">
             <mat-icon>close</mat-icon>
             </button>
         </mat-form-field>
