@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 
+import { NewsService } from './../news.service';
+
 @Component({
   selector: 'app-search',
   templateUrl: './search.component.html',
@@ -10,14 +12,17 @@ export class SearchComponent implements OnInit {
 
   search = "";
   type= "all";
+  results:any = [];
 
-  constructor() { }
+  constructor(private service: NewsService) { }
 
   ngOnInit(): void {
   }
 
   submit(form: NgForm) {
-    console.log(form.value);
+    this.service.search(this.search, this.type).subscribe((data:any) => {
+      this.results = data.hits;
+    })
   }
 
 }
