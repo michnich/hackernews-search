@@ -18,6 +18,7 @@
                 <mat-option value="ask_hn">Ask HN</mat-option>
             </mat-select>
         </mat-form-field>
+         <!-- SORT -->
         <mat-form-field appearance="outline">
             <mat-label>Sort by: </mat-label>
             <mat-select name="sort" [(ngModel)]="sort">
@@ -25,6 +26,7 @@
                 <mat-option value="date">Date</mat-option>
             </mat-select>
         </mat-form-field>
+         <!-- DATE FILTER -->
         <mat-form-field appearance="outline">
             <mat-label>Include results from: </mat-label>
             <mat-select name="time" [(ngModel)]="time">
@@ -40,13 +42,18 @@
         </div>
         </form>
 </div>
-
+<!-- PAGINATION -->
 <mat-paginator [length]="totalResults" [pageSize]="20" aria-label="Select page" (page)="nextPage($event)" *ngIf="totalResults">
 
 </mat-paginator>
+<!-- RESULTS -->
 <div *ngFor="let result of results">
-    <!-- results will one or other defined, api change? -->
-    <a *ngIf="result.title" href="{{result.url}}" target="_blank">{{result.title}}</a>
-    <a *ngIf="!result.title" href="{{result.story_url}}" target="_blank">{{result.story_title}}</a>
+    <ng-template [ngIf]="result.url || result.story_url" [ngIfElse]="createLink">
+        <a *ngIf="result.title" href="{{result.url}}" target="_blank">{{result.title}}</a>
+        <a *ngIf="!result.title" href="{{result.story_url}}" target="_blank">{{result.story_title}}</a>
+    </ng-template>
+    <ng-template #createLink>
+        <a href="https://news.ycombinator.com/item?id={{result.objectID}}" target="_blank">{{result.title}}</a>
+    </ng-template>
     <p>posted: {{result.created_at | date : 'shortDate'}}</p>       
 </div>
