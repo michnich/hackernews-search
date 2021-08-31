@@ -1,5 +1,5 @@
 <div>
-    <form>
+    <form (ngSubmit)="submit(form)" #form="ngForm">
         <!-- SEARCH PHRASE -->
         <mat-form-field class="example-form-field" appearance="outline">
             <input matInput type="text" name="search" [(ngModel)]="search" placeholder="Search...">
@@ -10,7 +10,7 @@
         </mat-form-field>
         <!-- SEARCH TYPE -->
         <mat-form-field appearance="outline">
-            <mat-select>
+            <mat-select name="type" [(ngModel)]="type">
                 <mat-option value="all" selected>All</mat-option>
                 <mat-option value="story">Stories</mat-option>
                 <mat-option value="comment">Comments</mat-option>
@@ -19,7 +19,7 @@
             </mat-select>
         </mat-form-field>
         <div>
-            <button mat-flat-button color="primary">Search</button>
+            <button type="submit" mat-flat-button color="primary">Search</button>
         </div>
         </form>
 </div>
