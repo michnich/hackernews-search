@@ -2,15 +2,15 @@
     <form (ngSubmit)="submit(form)" #form="ngForm">
         <!-- SEARCH PHRASE -->
         <mat-form-field class="example-form-field" appearance="outline">
-            <input matInput type="text" name="term" [(ngModel)]="term" placeholder="Search...">
+            <input matInput type="text" name="term" [(ngModel)]="query.term" placeholder="Search...">
             <!-- clear search button -->
-            <button *ngIf="term" matSuffix mat-icon-button aria-label="Clear" (click)="term=''">
+            <button *ngIf="query.term" matSuffix mat-icon-button aria-label="Clear" (click)="query.term=''">
             <mat-icon>close</mat-icon>
             </button>
         </mat-form-field>
         <!-- SEARCH TYPE -->
         <mat-form-field appearance="outline">
-            <mat-select name="type" [(ngModel)]="type">
+            <mat-select name="type" [(ngModel)]="query.type">
                 <mat-option value="all" selected>All</mat-option>
                 <mat-option value="story">Stories</mat-option>
                 <mat-option value="comment">Comments</mat-option>
@@ -21,7 +21,7 @@
          <!-- SORT -->
         <mat-form-field appearance="outline">
             <mat-label>Sort by: </mat-label>
-            <mat-select name="sort" [(ngModel)]="sort">
+            <mat-select name="sort" [(ngModel)]="query.sort">
                 <mat-option value="relevance">Relevance</mat-option>
                 <mat-option value="date">Date</mat-option>
             </mat-select>
@@ -29,7 +29,7 @@
          <!-- DATE FILTER -->
         <mat-form-field appearance="outline">
             <mat-label>Include results from: </mat-label>
-            <mat-select name="time" [(ngModel)]="time">
+            <mat-select name="range" [(ngModel)]="query.range">
                 <mat-option value="all">All time</mat-option>
                 <mat-option value="day">Past 24 hrs</mat-option>
                 <mat-option value="week">Past week</mat-option>

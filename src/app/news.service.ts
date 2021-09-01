@@ -1,5 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+
+import { Query } from './query';
+
 import * as moment from 'moment';
 
 @Injectable({
@@ -7,60 +10,63 @@ import * as moment from 'moment';
 })
 export class NewsService {
 
+  //api uri
   base: string = "http://hn.algolia.com/api/v1/";
 
   constructor(private http: HttpClient) { }
 
-  search(term: string, type: string, sort: string, time: string) {
+  search(search: Query) {
     let searchUrl;
 
     //sort results by date, or by relevance 
-    if (sort === "date") {
-      searchUrl = `${this.base}search_by_date?query=${term}`;  
+    if (search.sort === "date") {
+      searchUrl = `${this.base}search_by_date?query=${search.term}`;  
     }
     else {
-      searchUrl = `${this.base}search?query=${term}`;  
+      searchUrl = `${this.base}search?query=${search.term}`;  
     }
 
     //add query tags if needed
-    if (type !="all") {
-      searchUrl = `${searchUrl}&tags=${type};`
+    if (search.type !="all") {
+      searchUrl = `${searchUrl}&tags=${search.type};`
     }
 
     //if a time range was supplied
-    if (time != "all") {
-      searchUrl = searchUrl + this.timeRangeQuery(time);
+    if (search.range != "all") {
+      searchUrl = searchUrl + this.timeRangeQuery(search.range);
     }
 
     return this.http.get(searchUrl);
   }
 
-  nextSearchPage(term: string, type: string, sort: string, time: string, page: number) {
+  nextSearchPage(search:Query, page: number) {
     let searchUrl;
 
     //sort results by date, or by relevance 
-    if (sort === "date") {
-      searchUrl = `${this.base}search_by_date?query=${term}`;  
+    if (search.sort === "date") {
+      searchUrl = `${this.base}search_by_date?query=${search.term}`;  
     }
     else {
-      searchUrl = `${this.base}search?query=${term}`;  
+      searchUrl = `${this.base}search?query=${search.term}`;  
     }
 
     //add query tags if needed
-    if (type !="all") {
-      searchUrl = `${searchUrl}&tags=${type};`
+    if (search.type !="all") {
+      searchUrl = `${searchUrl}&tags=${search.type};`
     }
 
     //if a time range was supplied
-    if (time != "all") {
-      searchUrl = searchUrl + this.timeRangeQuery(time);
+    if (search.range != "all") {
+      searchUrl = searchUrl + this.timeRangeQuery(search.range);
     }
 
+    //query for the next page of results
     searchUrl = `${searchUrl}&page=${page}`;
-    console.log(searchUrl);
+   
     return this.http.get(searchUrl);
   }
 
+  //returns the portion of the query that specifies a date range
   timeRangeQuery(range: string) {
     let today = moment();
     let startDate!: any;
