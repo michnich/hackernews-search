@@ -11,7 +11,7 @@
         </mat-form-field>
     </div>
     <div>
-        <mat-card *ngFor="let query of queries">
+        <mat-card *ngFor="let query of queries; let i = index" [attr.data-index]="i">
             <mat-card-title>{{query.term}}</mat-card-title>
             <mat-card-content>
                 <p>Post type: {{query.type | titlecase}}</p>
@@ -19,6 +19,7 @@
                 <p *ngIf="query.range === 'all'">Include posts from all time</p>
                 <p *ngIf="query.range !== 'all'">Includes posts from the past {{query.range}}</p>
                 <p class="link" (click)="search(query)" color="primary">Run this search again</p>
+                <button mat-flat-button color="warn" (click)="delete(i)">Delete this search</button>
             </mat-card-content>
         </mat-card>
     </div>

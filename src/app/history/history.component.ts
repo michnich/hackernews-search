@@ -38,4 +38,13 @@ export class HistoryComponent implements OnInit {
       this.router.navigate(['/search']);
     });
   }
+
+  delete(index:number) {
+    if (this.sort = "created") {
+      this.state.deleteHistoryItem(index)
+    }
+    else {
+      this.state.deleteHistoryItem(this.queries.length - index);
+    }
+  }
 }

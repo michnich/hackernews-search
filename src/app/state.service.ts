@@ -34,4 +34,10 @@ export class StateService {
   clearHistory() {
     this._historySource.next([])
   }
+
+  deleteHistoryItem(index: number) {
+    let newState = this._historySource.getValue();
+    newState.splice(index, 1);
+    this._historySource.next(newState);
+  }
 }
