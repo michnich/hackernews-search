@@ -26,6 +26,8 @@ export class StateService {
 
   //saves the most recent search state for when the user navigates back to component
   lastSearch(search: SearchResult) {
+    console.log("saved the search");
+    console.log(search);
     this._searchSource.next(search);
   }
 }

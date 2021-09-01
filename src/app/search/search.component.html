@@ -43,7 +43,7 @@
         </form>
 </div>
 <!-- PAGINATION -->
-<mat-paginator [length]="totalResults" [pageSize]="20" aria-label="Select page" (page)="nextPage($event)" *ngIf="totalResults">
+<mat-paginator [length]="totalResults" [pageSize]="20" aria-label="Select page" (page)="nextPage($event)" [pageIndex]="pageIndex" *ngIf="totalResults">
 
 </mat-paginator>
 <!-- RESULTS -->
