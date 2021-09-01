@@ -6,6 +6,7 @@ import { Query } from './query';
 import * as moment from 'moment';
 import { catchError, map } from 'rxjs/operators';
 import { throwError } from 'rxjs';
+import { query } from '@angular/animations';
 
 @Injectable({
   providedIn: 'root'
@@ -36,7 +37,13 @@ export class NewsService {
 
     //if a time range was supplied
     if (search.range != "all") {
-      searchUrl = searchUrl + this.timeRangeQuery(search.range);
+      if (search.range === 'custom') {
+        searchUrl = searchUrl + this.timeRangeQuery(search.range, search.startDate, search.endDate);
+      }
+      else {
+        searchUrl = searchUrl + this.timeRangeQuery(search.range);
+      }
+      
     }
 
     return this.http.get(searchUrl).pipe(
@@ -75,27 +82,40 @@ export class NewsService {
   }
 
   //returns the portion of the query that specifies a date range
-  timeRangeQuery(range: string) {
+  timeRangeQuery(range: string, start?:any, end?:any ) {
     let today = moment();
     let startDate!: any;
+    let endDate:any;
+
+    let rangeString = '';
 
     //check for the time range type
     //create date for query
     if (range === 'day') {
       startDate = today.subtract(24, 'hours');
+      rangeString = `&numericFilters=created_at_i>${startDate.unix()}`;
     }
     else if (range === 'week') {
       startDate = today.startOf('day').subtract(7, 'days');
+      rangeString = `&numericFilters=created_at_i>${startDate.unix()}`;
     }
     else if (range === 'month') {
       startDate = today.startOf('day').subtract(1, 'months');
+      rangeString = `&numericFilters=created_at_i>${startDate.unix()}`;
     }
     else if (range === 'year') {
       startDate = today.startOf('day').subtract(1, 'years');
+      rangeString = `&numericFilters=created_at_i>${startDate.unix()}`;
+    }
+    //custom date range
+    else {
+      startDate = start;
+      endDate = end;
+      rangeString = `&numericFilters=created_at_i>${startDate.unix()},created_at_i<${endDate.unix()}`;
     }
 
     //api needs unix timestamps for querying
-    return `&numericFilters=created_at_i>${startDate.unix()}`;
+    return rangeString;
   }
 
   //throws error

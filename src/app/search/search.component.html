@@ -29,13 +29,23 @@
          <!-- DATE FILTER -->
         <mat-form-field appearance="outline">
             <mat-label>Include results from: </mat-label>
-            <mat-select name="range" [(ngModel)]="query.range">
+            <mat-select name="range" #range="ngModel" [(ngModel)]="query.range">
                 <mat-option value="all">All time</mat-option>
                 <mat-option value="day">Past 24 hrs</mat-option>
                 <mat-option value="week">Past week</mat-option>
                 <mat-option value="month">Past month</mat-option>
                 <mat-option value="year">Past year</mat-option>
+                <mat-option value="custom">Set a date range...</mat-option>
             </mat-select>
+        </mat-form-field>
+        <mat-form-field appearance="fill" *ngIf="range.value === 'custom'">
+            <mat-label>Enter a date range</mat-label>
+            <mat-date-range-input [rangePicker]="picker">
+              <input matStartDate placeholder="Start date" name="startDate" [(ngModel)]="startDate">
+              <input matEndDate placeholder="End date" name="endDate" [(ngModel)]="endDate">
+            </mat-date-range-input>
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-date-range-picker #picker></mat-date-range-picker>
         </mat-form-field>
         <button type="submit" mat-flat-button color="primary" [disabled]="query.term === ''">Search</button>
     </form>
