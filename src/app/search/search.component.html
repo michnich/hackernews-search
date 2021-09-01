@@ -69,18 +69,19 @@
             </ng-template>
             <ng-template #createLink>
                 <mat-card-title>
-                    <a href="https://news.ycombinator.com/item?id={{result.objectID}}" target="_blank">{{result.title}}</a>
+                    <a href="https://news.ycombinator.com/item?id={{result.objectID}}" target="_blank">{{result.title}}<span *ngIf="result.title === null">comment</span></a>
                 </mat-card-title>
             </ng-template>
             <!--DETAILS-->
             <mat-card-content>
                 <!--if there is story text, it will display the first 300 characters before cutting it off-->
                 <div *ngIf="result.story_text" [innerHTML]="(result.story_text.length>300) ? ((result.story_text | slice:0:300) + '...') : (result.story_text)"></div>
+                <div *ngIf="result.comment_text" [innerHTML]="(result.comment_text.length>300) ? ((result.comment_text | slice:0:300) + '...') : (result.comment_text)"></div>
                 <div>
                     <!-- posted date and author(linked) -->
                     <p>submitted on {{result.created_at | date : 'short'}} by <a target="_blank" href="https://news.ycombinator.com/user?id={{result.author}}">{{result.author}}</a></p>
                     <!-- number of points and comments(linked) -->
-                    <p><a target="_blank" href="https://news.ycombinator.com/item?id={{result.objectID}}">comments: {{result.num_comments}}</a> points: {{result.points}}</p>
+                    <p><a target="_blank" href="https://news.ycombinator.com/item?id={{result.objectID}}">comments: {{result.num_comments}}<span *ngIf="result.num_comments === null">0</span></a> points: {{result.points}}<span *ngIf="result.points === null">0</span></p>
                 </div>      
             </mat-card-content>           
         </mat-card>
