@@ -51,7 +51,6 @@ export class SearchComponent implements OnInit {
       //success
       (data:any) => {
         this.results = data.hits;
-        console.log(data.hits);
         this.totalResults = data.nbHits;
         this.errorMsg = "";
         //save search to history
