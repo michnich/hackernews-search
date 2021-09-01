@@ -15,6 +15,7 @@ export class NewsService {
 
   constructor(private http: HttpClient) { }
 
+  //queries the api
   search(search: Query) {
     let searchUrl;
 
@@ -39,6 +40,7 @@ export class NewsService {
     return this.http.get(searchUrl);
   }
 
+  //retrieves the specified page of results from api
   nextSearchPage(search:Query, page: number) {
     let searchUrl;
 

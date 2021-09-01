@@ -9,6 +9,7 @@ import {MatSelectModule} from '@angular/material/select';
 import {MatPaginatorModule} from '@angular/material/paginator';
 import {MatCardModule} from '@angular/material/card';
 
+//imports and exports all the material modules being used, so they can be imported in the root module
 let MaterialModules = [
   MatIconModule,
   MatFormFieldModule,

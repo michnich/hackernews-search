@@ -9,9 +9,11 @@ import { SearchResult } from './search-result';
 })
 export class StateService {
 
+  //stores the past searches
   private _historySource = new BehaviorSubject<Query[]>([]);
   history$ = this._historySource.asObservable();
 
+  //stores the state for the search page (including results)
   private _searchSource = new BehaviorSubject<SearchResult>({"term": "", "type": "", "sort": "", "range": "", "hits": [], "page": 0, "nbHits": 0});
   search$ = this._searchSource.asObservable();
 
@@ -26,8 +28,6 @@ export class StateService {
 
   //saves the most recent search state for when the user navigates back to component
   lastSearch(search: SearchResult) {
-    console.log("saved the search");
-    console.log(search);
     this._searchSource.next(search);
   }
 }
