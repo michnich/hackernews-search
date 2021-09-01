@@ -1,7 +1,7 @@
 <div>
     <h2 *ngIf="queries.length === 0">No search history</h2>
-    <div *ngIf="queries.length !== 0">
-        <button mat-flat-button color="warn" (click)="clearHistory()">Clear History</button>
+    <div *ngIf="queries.length !== 0" class="controls">
+        <button mat-flat-button color="accent" (click)="clearHistory()">Clear History</button>
         <mat-form-field appearance="outline">
             <mat-label>Sort: </mat-label>
             <mat-select name="sort" [ngModel]="sort" (ngModelChange)="changeOrder()">
@@ -10,7 +10,6 @@
             </mat-select>
         </mat-form-field>
     </div>
-   
     <div>
         <mat-card *ngFor="let query of queries">
             <mat-card-title>{{query.term}}</mat-card-title>
@@ -19,6 +18,7 @@
                 <p>Sorted by: {{query.sort | titlecase}}</p>
                 <p *ngIf="query.range === 'all'">Include posts from all time</p>
                 <p *ngIf="query.range !== 'all'">Includes posts from the past {{query.range}}</p>
+                <p class="link" (click)="search(query)" color="primary">Run this search again</p>
             </mat-card-content>
         </mat-card>
     </div>

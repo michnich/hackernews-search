@@ -1,0 +1,22 @@
+@import '~@angular/material/theming';
+//reads in the material predefined theme pallete to retrieve primary color value
+$app-primary: mat-palette($mat-deep-purple);
+$app-accent: mat-palette($mat-amber);
+$theme: mat-light-theme((
+  color: (
+    primary: $app-primary,
+    accent: $app-accent, //an accent color theme needs to be supplied
+  )
+));
+$color: mat-get-color-config($theme);
+$primary: map-get($color, primary);
+
+.link {
+    cursor: pointer;
+    text-decoration: underline;
+    color: map-get($primary, default);
+}
+
+.controls {
+    padding: 10px 30px;
+}
