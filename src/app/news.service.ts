@@ -13,7 +13,7 @@ import { throwError } from 'rxjs';
 export class NewsService {
 
   //api uri
-  base: string = "http://hn.algolia.com/api/v1/";
+  base: string = "https://hn.algolia.com/api/v1/";
 
   constructor(private http: HttpClient) { }
 
