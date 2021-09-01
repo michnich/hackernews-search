@@ -29,6 +29,10 @@ export class SearchComponent implements OnInit {
   //error message
   errorMsg:string = "";
   waiting:boolean = false;
+
+  //for the date picker
+  startDate:any;
+  endDate:any;
   
   constructor(private news: NewsService, private state: StateService) { }
 
@@ -47,6 +51,7 @@ export class SearchComponent implements OnInit {
   submit(form: NgForm) {
     this.waiting = true;
     this.results = [];
+    console.log(form.value);
     this.news.search(form.value).subscribe(
       //success
       (data:any) => {

@@ -11,6 +11,7 @@ import { SearchComponent } from './search/search.component';
 import { HistoryComponent } from './history/history.component';
 
 import { MaterialModule } from './material.module';
+import { MatMomentDateModule } from "@angular/material-moment-adapter";
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import { MaterialModule } from './material.module';
     BrowserAnimationsModule,
     MaterialModule,
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
+    MatMomentDateModule
   ],
   providers: [],
   bootstrap: [AppComponent]
