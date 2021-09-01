@@ -7,6 +7,7 @@ import { NewsService } from './../news.service';
 import { StateService } from './../state.service';
 import { Query } from '../query';
 import { Subscription } from 'rxjs';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-search',
@@ -25,6 +26,8 @@ export class SearchComponent implements OnInit {
   results:any = [];
   //subscription to retrieve state info
   searchSubscription!:Subscription;
+  //error message
+  errorMsg:string = "";
   
   constructor(private news: NewsService, private state: StateService) { }
 
@@ -41,22 +44,47 @@ export class SearchComponent implements OnInit {
   }
 
   submit(form: NgForm) {
-    this.news.search(form.value).subscribe((data:any) => {
-      this.results = data.hits;
-      this.totalResults = data.nbHits;
-      //save search to history
-      this.state.addToHistory(form.value);
-    })
+    this.news.search(form.value).subscribe(
+      //success
+      (data:any) => {
+        this.results = data.hits;
+        this.totalResults = data.nbHits;
+        this.errorMsg = "";
+        //save search to history
+        this.state.addToHistory(form.value);
+      },
+      //error
+      (error:any) =>{
+        //set error message for display and clear out any previous results
+        this.errorMsg = error;
+        this.results = [];
+        this.pageIndex = 0;
+        console.log(error);
+      }
+    )
   }
 
   //triggered when the user navigates to a new pagination page
   nextPage(event: PageEvent) {
     //query the api for the next page of results
-    this.news.nextSearchPage(this.query, event.pageIndex).subscribe((data:any) => {
-      this.results = data.hits;
-    })
-    //increment (for saving state)
-    this.pageIndex++;
+    this.news.nextSearchPage(this.query, event.pageIndex).subscribe(
+      //success
+      (data:any) => {
+        this.results = data.hits;
+        this.errorMsg = "";
+        //update page index
+        this.pageIndex = event.pageIndex;
+        
+      },
+      //error
+      (error:any) =>{
+        //set error message for display and clear out any previous results
+        this.errorMsg = error;
+        this.results = [];
+        this.pageIndex = 0;
+        console.log(error);
+      }
+    )
   }
 
   ngOnDestroy() {

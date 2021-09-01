@@ -1,9 +1,11 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 
 import { Query } from './query';
 
 import * as moment from 'moment';
+import { catchError, map } from 'rxjs/operators';
+import { throwError } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -37,7 +39,9 @@ export class NewsService {
       searchUrl = searchUrl + this.timeRangeQuery(search.range);
     }
 
-    return this.http.get(searchUrl);
+    return this.http.get(searchUrl).pipe(
+      catchError(this.errorHandler)
+    )
   }
 
   //retrieves the specified page of results from api
@@ -65,7 +69,9 @@ export class NewsService {
     //query for the next page of results
     searchUrl = `${searchUrl}&page=${page}`;
    
-    return this.http.get(searchUrl);
+    return this.http.get(searchUrl).pipe(
+      catchError(this.errorHandler)
+    );
   }
 
   //returns the portion of the query that specifies a date range
@@ -90,5 +96,12 @@ export class NewsService {
 
     //api needs unix timestamps for querying
     return `&numericFilters=created_at_i>${startDate.unix()}`;
+  }
+
+  //throws error
+  errorHandler(error: HttpErrorResponse) {
+    console.log("error handler");
+    console.log(error);
+    return throwError(error.message || "Server Error");
   }
 }

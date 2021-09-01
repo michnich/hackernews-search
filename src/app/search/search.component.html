@@ -47,6 +47,10 @@
     <mat-paginator [length]="totalResults" [pageSize]="20" aria-label="Select page" (page)="nextPage($event)" [pageIndex]="pageIndex" *ngIf="totalResults">
 
     </mat-paginator>
+    <!--ERROR-->
+    <div *ngIf="errorMsg">
+        {{errorMsg}}
+    </div>
     <!-- RESULTS -->
     <div>
         <!--TITLE-->
