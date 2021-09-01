@@ -30,4 +30,8 @@ export class StateService {
   lastSearch(search: SearchResult) {
     this._searchSource.next(search);
   }
+
+  clearHistory() {
+    this._historySource.next([])
+  }
 }

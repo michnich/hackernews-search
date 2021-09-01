@@ -11,13 +11,21 @@ import { Query } from './../query';
 export class HistoryComponent implements OnInit {
 
   queries!: Array<Query>
-
+  sort = "created";
   constructor(private state: StateService) { }
 
   ngOnInit(): void {
     this.state.history$.subscribe(history => {
       this.queries = history;
     })
+  }
+
+  clearHistory() {
+    this.state.clearHistory();
+  }
+
+  changeOrder() {
+    this.queries.reverse();
   }
 
 }
