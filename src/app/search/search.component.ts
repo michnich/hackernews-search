@@ -28,6 +28,7 @@ export class SearchComponent implements OnInit {
   searchSubscription!:Subscription;
   //error message
   errorMsg:string = "";
+  waiting:boolean = false;
   
   constructor(private news: NewsService, private state: StateService) { }
 
@@ -44,6 +45,8 @@ export class SearchComponent implements OnInit {
   }
 
   submit(form: NgForm) {
+    this.waiting = true;
+    this.results = [];
     this.news.search(form.value).subscribe(
       //success
       (data:any) => {
@@ -62,6 +65,7 @@ export class SearchComponent implements OnInit {
         console.log(error);
       }
     )
+    this.waiting = false;
   }
 
   //triggered when the user navigates to a new pagination page

@@ -1,5 +1,18 @@
-<a routerLink="/search">Search</a>
-<br>
-<a routerLink="/history">History</a>
+<!--NAVBAR-->
+<mat-toolbar color="primary" class="nav">
+    <span>HackerNews</span>
+    <span class="spacer"></span>
+    <div class="navLink" routerLink="/search">
+        <mat-icon>search</mat-icon>
+        <span>Search</span> 
+    </div>
+    <div class="navLink" routerLink="/history">   
+        <mat-icon>history</mat-icon>
+        <span>History</span>
+    </div>
+</mat-toolbar>
+<!--PAGES-->
+<div class="page">
+    <router-outlet></router-outlet>
+</div>
 
-<router-outlet></router-outlet>

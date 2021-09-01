@@ -37,9 +37,7 @@
                 <mat-option value="year">Past year</mat-option>
             </mat-select>
         </mat-form-field>
-        <div>
-            <button type="submit" mat-flat-button color="primary">Search</button>
-        </div>
+        <button type="submit" mat-flat-button color="primary" [disabled]="query.term === ''">Search</button>
     </form>
 </div>
 <div>
@@ -51,6 +49,7 @@
     <div *ngIf="errorMsg">
         {{errorMsg}}
     </div>
+    <mat-spinner *ngIf="waiting"></mat-spinner>
     <!-- RESULTS -->
     <div>
         <!--TITLE-->

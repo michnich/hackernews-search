@@ -8,6 +8,8 @@ import {MatButtonModule} from '@angular/material/button';
 import {MatSelectModule} from '@angular/material/select';
 import {MatPaginatorModule} from '@angular/material/paginator';
 import {MatCardModule} from '@angular/material/card';
+import {MatToolbarModule} from '@angular/material/toolbar';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 
 //imports and exports all the material modules being used, so they can be imported in the root module
 let MaterialModules = [
@@ -17,7 +19,9 @@ let MaterialModules = [
   MatButtonModule,
   MatSelectModule,
   MatPaginatorModule,
-  MatCardModule
+  MatCardModule,
+  MatToolbarModule,
+  MatProgressSpinnerModule
 ]
 
 @NgModule({
