@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 import { StateService } from './../state.service';
+import { Query } from './../query';
 
 @Component({
   selector: 'app-history',
@@ -9,13 +10,13 @@ import { StateService } from './../state.service';
 })
 export class HistoryComponent implements OnInit {
 
-  history!: Array<any>
+  queries!: Array<Query>
 
   constructor(private state: StateService) { }
 
   ngOnInit(): void {
     this.state.history$.subscribe(history => {
-      this.history = history;
+      this.queries = history;
     })
   }
 

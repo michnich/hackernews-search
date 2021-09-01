@@ -1,5 +1,11 @@
 <div>
-    <div *ngFor="let item of history">
-        <p>{{item | json}}</p>
-    </div>
+    <mat-card *ngFor="let query of queries">
+        <mat-card-title>{{query.term}}</mat-card-title>
+        <mat-card-content>
+            <p>Post type: {{query.type | titlecase}}</p>
+            <p>Sorted by: {{query.sort | titlecase}}</p>
+            <p *ngIf="query.range === 'all'">Include posts from all time</p>
+            <p *ngIf="query.range !== 'all'">Includes posts from the past {{query.range}}</p>
+        </mat-card-content>
+    </mat-card>
 </div>
