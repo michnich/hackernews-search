@@ -40,20 +40,46 @@
         <div>
             <button type="submit" mat-flat-button color="primary">Search</button>
         </div>
-        </form>
+    </form>
 </div>
-<!-- PAGINATION -->
-<mat-paginator [length]="totalResults" [pageSize]="20" aria-label="Select page" (page)="nextPage($event)" [pageIndex]="pageIndex" *ngIf="totalResults">
+<div>
+    <!-- PAGINATION -->
+    <mat-paginator [length]="totalResults" [pageSize]="20" aria-label="Select page" (page)="nextPage($event)" [pageIndex]="pageIndex" *ngIf="totalResults">
 
-</mat-paginator>
-<!-- RESULTS -->
-<div *ngFor="let result of results">
-    <ng-template [ngIf]="result.url || result.story_url" [ngIfElse]="createLink">
-        <a *ngIf="result.title" href="{{result.url}}" target="_blank">{{result.title}}</a>
-        <a *ngIf="!result.title" href="{{result.story_url}}" target="_blank">{{result.story_title}}</a>
-    </ng-template>
-    <ng-template #createLink>
-        <a href="https://news.ycombinator.com/item?id={{result.objectID}}" target="_blank">{{result.title}}</a>
-    </ng-template>
-    <p>posted: {{result.created_at | date : 'shortDate'}}</p>       
+    </mat-paginator>
+    <!-- RESULTS -->
+    <div>
+        <!--TITLE-->
+        <mat-card *ngFor="let result of results">       
+            <!--
+                display and link the title of the post
+                    first tests if the url or story url is defined and uses that property if it is
+                    otherwise creates a link using the object id (for ask hn and polls)
+            -->
+            <ng-template [ngIf]="result.url || result.story_url" [ngIfElse]="createLink">
+                <mat-card-title *ngIf="result.title">
+                    <a href="{{result.url}}" target="_blank">{{result.title}}</a>
+                </mat-card-title>
+                <mat-card-title *ngIf="!result.title">
+                    <a href="{{result.story_url}}" target="_blank">{{result.story_title}}</a>
+                </mat-card-title>
+            </ng-template>
+            <ng-template #createLink>
+                <mat-card-title>
+                    <a href="https://news.ycombinator.com/item?id={{result.objectID}}" target="_blank">{{result.title}}</a>
+                </mat-card-title>
+            </ng-template>
+            <!--DETAILS-->
+            <mat-card-content>
+                <!--if there is story text, it will display the first 300 characters before cutting it off-->
+                <div *ngIf="result.story_text" [innerHTML]="(result.story_text.length>300) ? ((result.story_text | slice:0:300) + '...') : (result.story_text)"></div>
+                <div>
+                    <!-- posted date and author(linked) -->
+                    <p>submitted on {{result.created_at | date : 'short'}} by <a target="_blank" href="https://news.ycombinator.com/user?id={{result.author}}">{{result.author}}</a></p>
+                    <!-- number of points and comments(linked) -->
+                    <p><a target="_blank" href="https://news.ycombinator.com/item?id={{result.objectID}}">comments: {{result.num_comments}}</a> points: {{result.points}}</p>
+                </div>      
+            </mat-card-content>           
+        </mat-card>
+    </div>
 </div>

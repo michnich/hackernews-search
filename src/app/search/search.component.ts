@@ -44,7 +44,6 @@ export class SearchComponent implements OnInit {
     this.news.search(form.value).subscribe((data:any) => {
       this.results = data.hits;
       this.totalResults = data.nbHits;
-      
       //save search to history
       this.state.addToHistory(form.value);
     })
