@@ -109,7 +109,7 @@ export class SearchComponent implements OnInit {
       if (!this.endDate) {
         return false;
       }
-      if (this.startDate > this.endDate) {
+      if (this.startDate.isAfter(this.endDate)) {
         return false;
       }
     }
