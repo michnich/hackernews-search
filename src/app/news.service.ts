@@ -4,9 +4,9 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Query } from './query';
 
 import * as moment from 'moment';
+import { Moment } from 'moment';
 import { catchError, map } from 'rxjs/operators';
 import { throwError } from 'rxjs';
-import { query } from '@angular/animations';
 
 @Injectable({
   providedIn: 'root'
@@ -20,6 +20,25 @@ export class NewsService {
 
   //queries the api
   search(search: Query) {
+    let searchUrl = this.constructQuery(search);
+    return this.http.get(searchUrl).pipe(
+      catchError(this.errorHandler)
+    )
+  }
+
+  //retrieves the specified page of results from api
+  nextSearchPage(search:Query, page: number) {
+    let searchUrl = this.constructQuery(search);
+
+    //add on to query for the next page of results
+    searchUrl = `${searchUrl}&page=${page}`;
+   
+    return this.http.get(searchUrl).pipe(
+      catchError(this.errorHandler)
+    );
+  }
+
+  constructQuery(search:Query) {
     let searchUrl;
 
     //sort results by date, or by relevance 
@@ -43,49 +62,14 @@ export class NewsService {
       else {
         searchUrl = searchUrl + this.timeRangeQuery(search.range);
       }
-      
     }
-
-    return this.http.get(searchUrl).pipe(
-      catchError(this.errorHandler)
-    )
+    return searchUrl;
   }
-
-  //retrieves the specified page of results from api
-  nextSearchPage(search:Query, page: number) {
-    let searchUrl;
-
-    //sort results by date, or by relevance 
-    if (search.sort === "date") {
-      searchUrl = `${this.base}search_by_date?query=${search.term}`;  
-    }
-    else {
-      searchUrl = `${this.base}search?query=${search.term}`;  
-    }
-
-    //add query tags if needed
-    if (search.type !="all") {
-      searchUrl = `${searchUrl}&tags=${search.type};`
-    }
-
-    //if a time range was supplied
-    if (search.range != "all") {
-      searchUrl = searchUrl + this.timeRangeQuery(search.range);
-    }
-
-    //query for the next page of results
-    searchUrl = `${searchUrl}&page=${page}`;
-   
-    return this.http.get(searchUrl).pipe(
-      catchError(this.errorHandler)
-    );
-  }
-
   //returns the portion of the query that specifies a date range
-  timeRangeQuery(range: string, start?:any, end?:any ) {
+  timeRangeQuery(range: string, start?:Moment, end?:Moment ) {
     let today = moment();
-    let startDate!: any;
-    let endDate:any;
+    let startDate!: Moment;
+    let endDate: Moment;
 
     let rangeString = '';
 
@@ -108,10 +92,8 @@ export class NewsService {
       rangeString = `&numericFilters=created_at_i>${startDate.unix()}`;
     }
     //custom date range
-    else {
-      startDate = start;
-      endDate = end;
-      rangeString = `&numericFilters=created_at_i>${startDate.unix()},created_at_i<${endDate.unix()}`;
+    else if(start && end) {
+      rangeString = `&numericFilters=created_at_i>${start.unix()},created_at_i<${end.unix()}`;
     }
 
     //api needs unix timestamps for querying

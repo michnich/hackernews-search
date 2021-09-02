@@ -7,7 +7,8 @@ import { NewsService } from './../news.service';
 import { StateService } from './../state.service';
 import { Query } from '../query';
 import { Subscription } from 'rxjs';
-import { Observable } from 'rxjs';
+import { Moment } from 'moment';
+
 
 @Component({
   selector: 'app-search',
@@ -16,7 +17,7 @@ import { Observable } from 'rxjs';
 })
 export class SearchComponent implements OnInit {
   //all fields in form
-  query:Query = {term: "", type: "all", sort: "relevance", range: "all"}
+  query:Query = {term: "", type: "all", sort: "relevance", range: "all", }
 
   //for pagination
   totalResults!:number;
@@ -31,8 +32,8 @@ export class SearchComponent implements OnInit {
   waiting:boolean = false;
 
   //for the date picker
-  startDate:any;
-  endDate:any;
+  startDate:Moment | undefined;
+  endDate:Moment | undefined;;
   
   constructor(private news: NewsService, private state: StateService) { }
 
@@ -41,6 +42,8 @@ export class SearchComponent implements OnInit {
       //check that there was a previous search
       if (search.term) {
         this.query = search;
+        this.startDate = search.startDate;
+        this.endDate = search.endDate;
         this.results = search.hits;
         this.totalResults = search.nbHits;
         this.pageIndex = search.page;
@@ -51,7 +54,6 @@ export class SearchComponent implements OnInit {
   submit(form: NgForm) {
     this.waiting = true;
     this.results = [];
-    console.log(form.value);
     this.news.search(form.value).subscribe(
       //success
       (data:any) => {
@@ -98,7 +100,7 @@ export class SearchComponent implements OnInit {
 
   ngOnDestroy() {
     //save the search state and unsubscribe
-    this.state.lastSearch({...this.query, "hits": this.results, "page": this.pageIndex, "nbHits": this.totalResults });
+    this.state.lastSearch({...this.query, startDate: this.startDate, endDate: this.endDate, "hits": this.results, "page": this.pageIndex, "nbHits": this.totalResults });
     this.searchSubscription.unsubscribe();
   }
 
