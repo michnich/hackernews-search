@@ -47,7 +47,7 @@
             <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
             <mat-date-range-picker #picker></mat-date-range-picker>
         </mat-form-field>
-        <button type="submit" mat-flat-button color="primary" [disabled]="query.term === ''">Search</button>
+        <button type="submit" mat-flat-button color="primary" [disabled]="!checkValidity()">Search</button>
     </form>
 </div>
 <div>

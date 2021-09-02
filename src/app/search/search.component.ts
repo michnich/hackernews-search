@@ -98,6 +98,24 @@ export class SearchComponent implements OnInit {
     )
   }
 
+  checkValidity() {
+    if (this.query.term === '') {
+      return false;
+    }
+    if (this.query.range === 'custom') {
+      if (!this.startDate) {
+        return false;
+      }
+      if (!this.endDate) {
+        return false;
+      }
+      if (this.startDate > this.endDate) {
+        return false;
+      }
+    }
+    return true;
+  }
+
   ngOnDestroy() {
     //save the search state and unsubscribe
     this.state.lastSearch({...this.query, startDate: this.startDate, endDate: this.endDate, "hits": this.results, "page": this.pageIndex, "nbHits": this.totalResults });
