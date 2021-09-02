@@ -17,7 +17,9 @@
                 <p>Post type: {{query.type | titlecase}}</p>
                 <p>Sorted by: {{query.sort | titlecase}}</p>
                 <p *ngIf="query.range === 'all'">Include posts from all time</p>
-                <p *ngIf="query.range !== 'all'">Includes posts from the past {{query.range}}</p>
+                <p *ngIf="((query.startDate !== undefined) && (query.endDate !== undefined))">
+                    Include posts from {{query.startDate.format('MM/DD/YY')}} to {{query.endDate.format('MM/DD/YY')}}</p>
+                <p *ngIf="(query.range !== 'all') && (query.range !=='custom')">Includes posts from the past {{query.range}}</p>
                 <p class="link" (click)="search(query)" color="primary">Run this search again</p>
                 <button mat-flat-button color="warn" (click)="delete(i)">Delete this search</button>
             </mat-card-content>
